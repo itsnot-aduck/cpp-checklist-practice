@@ -139,6 +139,7 @@ class AVL{
         }
 };
 
+
 int main(){
     AVL<float> t;
     t.insert(1.3);

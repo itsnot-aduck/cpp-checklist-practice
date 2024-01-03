@@ -7,6 +7,7 @@ typedef enum{
     OTHER
 } gender_t;
 
+
 class Officer{
 protected:
     std::string name;

@@ -1,0 +1,10 @@
+*
+!*.c
+!Makefile
+!*.cpp
+!*.h
+!*.hpp
+!.gitignore
+!*.md
+tempCodeRunnerFile.c
+tempCodeRunnerFile.cpp

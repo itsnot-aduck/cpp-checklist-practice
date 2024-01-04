@@ -24,7 +24,7 @@ private:
 public:
     Trie();
     ~Trie(){ 
-        /* Just do nothing, destructor for root will be automaticlly called */
+        /* Just do nothing, destructor for root will be automaticlly called  */
     }
     void addWord(string word);
     bool searchWord(string word);

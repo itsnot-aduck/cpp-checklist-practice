@@ -1,52 +1,64 @@
 #include <iostream>
-#include <map>
 
-class TrieNode {
+using namespace std;
+
+class Node{
 public:
-    std::map<char, TrieNode*> children;
-    bool endOfWord;
-
-    TrieNode() : endOfWord(false) {}
+    bool isTerminal;
+    Node *child[26];
+    /* Initialize attributes for each node */
+    Node(){
+        isTerminal = false;
+        for (int i = 0; i < 26; i++)
+            child[i] = nullptr;
+    }
+    /* Release the node */
+    ~Node(){
+        delete[] (Node*) child;
+    }
 };
 
-class Trie {
+class Trie{
 private:
-    TrieNode* root;
-
+    Node* root;
 public:
-    Trie() {
-        root = new TrieNode();
+    Trie();
+    ~Trie(){ 
+        /* Just do nothing, destructor for root will be automaticlly called */
     }
-
-    void insert(std::string word) {
-        TrieNode* current = root;
-        for (char ch : word) {
-            if (current->children.find(ch) == current->children.end()) {
-                current->children[ch] = new TrieNode();
-            }
-            current = current->children[ch];
-        }
-        current->endOfWord = true;
-    }
-
-    bool search(std::string word) {
-        TrieNode* current = root;
-        for (char ch : word) {
-            if (current->children.find(ch) == current->children.end()) {
-                return false;
-            }
-            current = current->children[ch];
-        }
-        return current != nullptr && current->endOfWord;
-    }
-
-    // Additional methods like delete can also be implemented.
+    void addWord(string word);
+    bool searchWord(string word);
 };
 
-int main() {
-    Trie trie;
-    trie.insert("hello");
-    std::cout << "Is 'hello' in trie? " << trie.search("hello") << std::endl;
-    std::cout << "Is 'world' in trie? " << trie.search("world") << std::endl;
+Trie::Trie(){
+    root = new Node;
+}  
+
+void Trie::addWord(string word){
+    Node *pCursor = root;
+    int wordSize = word.size();
+    for (int i =0; i < wordSize; i++){
+        if (pCursor -> child[word[i]-'A']== NULL)
+            pCursor -> child[word[i]-'A'] = new Node();
+        pCursor = pCursor -> child[word[i]-'A'];
+    }
+    pCursor -> isTerminal = true;
+}
+
+bool Trie:: searchWord(string word){
+    int n = word.size();
+    Node *pCursor = root;
+    for (int i = 0; i < n; i++){
+        if (pCursor -> child[word[i] - 'A'] == NULL) return false;
+        pCursor = pCursor -> child[word[i] - 'A'];
+    }
+    return pCursor -> isTerminal;
+}
+
+int main(){
+    Trie test;
+    test.addWord("Hello");
+    test.addWord("Hi");
+    cout << test.searchWord("Hello2") << endl;
     return 0;
 }
